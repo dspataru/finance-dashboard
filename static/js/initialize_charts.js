@@ -10,6 +10,7 @@ let portfolio_url = base_url+'portfolio_data/';
 let ETF_url = base_url+'price_info/' 
 
 let ETF_doughnutChart;
+//let portfolioHistory_lineChart;
 
 //initialize the donut chart with conservative data
 d3.json(weights_url + p)
@@ -93,3 +94,5 @@ ETFsURL.forEach(url => {
         console.error('API error:', error);
       });
   });
+
+  

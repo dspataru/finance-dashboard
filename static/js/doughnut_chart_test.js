@@ -22,7 +22,11 @@ function portfolioLabels(portfolioData) {
 
 // Initialize the chart with the initial data
 function initializeDonutChart(initialData) {
-
+    // Define an array to store chart instances
+let chartInstances = [];
+// Destroy existing chart instances
+chartInstances.forEach(chart => chart.destroy());
+chartInstances = [];
 
   let doughnutChart = document.getElementById('pie_chart').getContext('2d');
 

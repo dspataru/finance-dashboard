@@ -20,12 +20,14 @@ function initializeLineChart(portfolioVals, date) {
     let lowRisk_lineData = {
         labels: date,
         datasets: [{
-            label: 'Conservative',
+            label: '', // needs to change or GO
             data: portfolioVals,
             borderColor: 'rgb(75, 192, 192)',
             borderWidth: 2,
         }]
     };
+
+
 
     // Generate default graph
     let portfolioHistory_lineChart = new Chart(lineChart, {
@@ -41,6 +43,7 @@ function initializeLineChart(portfolioVals, date) {
 
 // Function to update the line chart
 function update_lineChart(portfolio_values, dates) {
+    
     portfolioHistory_lineChart.data.datasets[0].data = portfolio_values;   // Update the chart's data with the new data
     portfolioHistory_lineChart.labels = dates;   // Update the chart's data with the new timeline
     portfolioHistory_lineChart.update();
