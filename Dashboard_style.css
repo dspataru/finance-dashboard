@@ -890,15 +890,58 @@ main .recent-orders {
     margin-right: 2rem;
   }
 
+/* -----------ETF Stock Info-------------- */
+  
+.right .sales-analytics {
+  margin-top: 2rem;
+}
 
-  /* START RECENT UPDATES */
+.right .sales-analytics h1 {
+  margin-bottom: 0.8rem;
+}
+
+.right .sales-analytics .ETF_insights {
+  background: var(--color-white);
+  align-items: center; 
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.7rem;
+  padding: 1.4rem var(--card-padding);
+  border-radius: var(--border-radius-3);
+  box-shadow: var(--box-shadow);
+  transition: all 300ms ease;
+}
+
+.right .sales-analytics .ETF_insights:hover{
+  box-shadow: none;
+}
+
+.right .sales-analytics .ETF_insights .right {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  margin: 0;
+  width:100%;
+  padding-left: 1rem;
+}
+
+.right .sales-analytics .ETF_insights .right .Fl {
+  display: flex;
+  align-items: center;
+  width:70px;
+  height:25px;
+}
+
+/* -----------ETF Stock Info-------------- */
+
+/* START RECENT UPDATES */
 
 
 .right .recent-updates {
   margin-top: 1rem;
 }
 .right .recent-updates h1 {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   padding-left : 1rem;
 }
 .right .recent-updates .updates {
@@ -922,29 +965,140 @@ main .recent-orders {
 }
 
 .right .recent-updates a {
-  text-align: center;
   display: block;
   margin: 1rem auto;
   color: var(--color-primary);
 }
 /* END RECENT UPDATES */
 
-.right .sales-analytics {
-  margin-top: 2rem;
+/* SMALL TABLETS AND MOBILE */
+@media screen and (max-width: 1200px) {
+  .container{
+    width: 94%;
+    grid-template-columns: 7rem auto 23 rem;
+  }
+  
+  aside .sidebar h3 {
+    display: none;
+  }
+
+  aside .sidebar a{
+    width: 5.6rem;
+  }
+
+  aside .sidebar .theme-toggler{
+    position: relative;
+    margin-top: 3rem;
+    margin-left: 1.8rem;
+  }
+  main.insights {
+    grid-template-columns: 1fr;
+    gap:0;
+  }
+
+  main.recent-orders {
+    width: 94%;
+    position: absolute;
+    left : 50%;
+    transform: translateX(-50%);
+    margin: 2rem 0 0 8.8rem;
+  }
 }
 
-.right .sales-analytics h1 {
-  margin-bottom: 0.8rem;
-}
+/* SMALL TABLETS AND MOBILE */
+@media screen and (max-width: 768px) {
+  .container {
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
 
-.right .sales-analytics .ETF_insights{
-  background: var(--color-white);
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 0.7rem;
-  padding: 1.4rem var(--card-padding);
-  border-radius: var(--border-radius-3);
-  box-shadow: var(--box-shadow);
-  transition: all 300ms ease;
+  aside {
+    position: fixed;
+    left: -100%;
+    background: var(--color-white);
+    width: 18rem;
+    z-index: 3;
+    box-shadow: 1rem 3rem 4rem var(--color-light);
+    height: 100vh;
+    padding-right: var(--card-padding);
+    height: 100vh;
+    display: none;
+    animation: showMenu 400ms ease forwards;
+  }
+  @keyframes showMenu {
+    to {
+      left: 0;
+    }
+  }
+  aside .logo {
+    margin-left: 1rem;
+  }
+  aside .logo h1 {
+    display: inline;
+  }
+  aside .sidebar h3 {
+    display: inline;
+  }
+  aside .sidebar a {
+    width: 100%;
+    height: 3.4rem;
+  }
+  aside .sidebar .theme-toggler{
+    position: absolute;
+    bottom: 5rem;
+  }
+  aside .close {
+    display: inline-block;
+    cursor: pointer;
+  }
+  main {
+    margin-top: 8rem;
+    padding: 0 1rem;
+  }
+  main .recent-orders {
+    position: relative;
+    margin: 3rem 0 0 0;
+    width: 100%;
+  }
+  main .recent-orders table {
+    width: 100%;
+    margin: 0;
+  }
+  .right {
+    width: 94%;
+    margin: 0 auto 4rem;
+  }
+  .right .top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    align-items: center;
+    padding: 0 0.8rem;
+    height: 4.6rem;
+    background: var(--color-white);
+    width: 100%;
+    margin: 0;
+    z-index: 2;
+    box-shadow: 0 1rem 1rem var(--color-light);
+  }
+  .right .top .ETF_update {
+    width: 4.4rem;
+    position: absolute;
+    left: 60%;
+  }
+  .right .top .profile .info {
+    display: none;
+  }
+  .right .top button {
+    display: inline-block;
+    background: transparent;
+    cursor: pointer;
+    color: var(--color-dark);
+    position: absolute;
+    left: 1rem;
+  }
+  .right .top button span {
+    font-size: 2rem;
+  }
 }
+/* END MEDIA QUERIES */
