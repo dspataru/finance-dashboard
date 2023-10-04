@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETF website</title>
+    <link rel = "stylesheet" href="Dashboard_style.css" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
+      integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src='https://cdn.plot.ly/plotly-2.26.0.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.js"></script>
+    <script src="https://code.jscharting.com/latest/jscharting.js"></script>
+    <script type="text/javascript" src="https://code.jscharting.com/latest/modules/types.js"></script>
+  </head>
+<body>
+    <!----------SIDE BAR----------------------->
+    <div class="container">
+      <aside>
+        <div class="top">
+          <div class="logo">
+            <!-- <img src="./images/logo.png" alt="Logo" /> -->
+            <a id="navbar__logo">Finance<span class="danger">ETF</span></a>
+          </div>
+          <div class="close" id="close-btn">
+            <span class="material-icons-sharp"> close </span>
+          </div>
+        </div>
+
+        <div class="sidebar">
+          <a href="#" class="active">
+            <span class="material-icons-sharp"> dashboard </span>
+            <h3>Dashboard</h3>
+          </a>
+          <a href="/index.html">
+            <span class="material-icons-sharp"> home </span>
+            <h3>Home</h3>
+          </a>
+          <a href="#">
+            <span class="material-icons-sharp"> person_outline </span>
+            <h3>View Profile</h3>
+          </a>
+          <a href="#">
+            <span class="material-icons-sharp"> receipt_long </span>
+            <h3>Investments</h3>
+          </a>
+          <a href="#">
+            <span class="material-icons-sharp"> insights </span>
+            <h3>Analytics</h3>
+          </a>
+          <a href="#">
+            <span class="material-icons-sharp"> mail_outline </span>
+            <h3>Messages</h3>
+            <span class="message-count">26</span>
+          </a>
+          <a href="#">
+            <span class="material-icons-sharp"> report_gmailerrorred </span>
+            <h3>Reports</h3>
+          </a>
+          <a href="#">
+            <span class="material-icons-sharp"> settings </span>
+            <h3>Settings</h3>
+          </a>
+          <a href="#">
+            <span class="material-icons-sharp"> logout </span>
+            <h3>Logout</h3>
+          </a>
+          <div class="theme-toggler">
+            <span class="material-icons-sharp active"> light_mode </span>
+            <span class="material-icons-sharp"> dark_mode </span>
+          </div>
+        </div>
+      </aside>
+
+
+      <!----------SIDE BAR----------------------->
+      <main>
+        <nav class="navbar">
+          <div class="navbar__container">
+            <a id="navbar__dashboard">Dashboard</a>
+            <div class="navbar__toggle" id="mobile-menu">
+              <span class="bar"></span>
+              <span class="bar"></span>
+              <span class="bar"></span>
+            </div>
+            <ul class="navbar__menu">
+              <li class="navbar__item">
+                <a href="/index.html" class="navbar__links">Home</a>                 
+              </li>
+              <li class="navbar__btn">
+              <div class = "button menu-dropdown" onclick = "openDropdown()">
+                Select a Portfolio
+               </div>
+              <!-- <a href="#" ></a>   -->
+              <div class="dropdown-list" id = "list">
+                <ul>
+                <li><p>Conservative</p></li>
+                <li><p>Balanced</p></li>
+                <li><p href="#">Growth</p></li>
+              </ul>
+              </div>               
+              </li>
+            </ul> 
+          </div>
+      </nav>
+  
+
+        <div class="insights">
+          <!-- ETF Ditribution -->
+          <div class="ETF_Distribution">
+            <span class="material-icons-sharp" id="donut"> donut_large </span>
+            <div class="middle">
+              <div class="left">
+                <h1>ETF </h1>
+                <h1>Distribution</h1>                
+                <h3 id="portfolioType_output"></h3>  
+              <div class="ETF_Names"><ul>
+                <li><span class="material-symbols-sharp" id="BOND">
+                  crop_16_9
+                  </span>
+                  <h3>Bond</h3></li>
+                <li><span class="material-symbols-sharp" id="SPY">
+                  crop_16_9
+                  </span>
+                  <h3>SPY</h3></li>
+                <li><span class="material-symbols-sharp" id="VGK">
+                  crop_16_9
+                  </span>
+                  <h3>VGK</h3></li>
+                <li><span class="material-symbols-sharp" id="VONG">
+                  crop_16_9
+                  </span>
+                  <h3>VONG</h3></li>
+                <li><span class="material-symbols-sharp" id="SCHE">
+                  crop_16_9
+                  </span>
+                  <h3>SCHE</h3></li>
+              </ul> 
+             </div> 
+            </div>
+              <div class="progress"> 
+                <canvas id="pie_chart"></canvas>
+              </div>
+            </div>
+          </div>
+
+           <!-- Risk Index --Gauge -->
+          <div class="Risk_index">
+            <span class="material-icons-sharp" id="risk"> report_gmailerrorred  </span>
+            <div class="middle">
+              <div class="left">
+                <h1>Risk </h1>
+                <h1>Indicator</h1>
+              </div>
+              <div class="progress"> 
+                <div id="gauge_chart"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+       <!-- Chart_Section -->
+       <div class="chart_section">
+        <div class="chart_container">
+            <h1>Performance Chart</h1>
+       <div class="Chart_right dropdown-list" id="date_list">
+          <ul>
+            <div class="date">
+                <li><h3>Date Range</h3></li>
+                <li><h3>From:</h3></li>
+                  <input type = "startDate">
+                  <li><h3>To:</h3></li>
+                  <input type = "endDate">
+            </div>
+          </ul>
+          <ul>
+              <li><button id="YTD" onclick="update_timeline('YTD')"><h3>YTD</h3></button></li>
+              <li><button id="1Y" onclick="update_timeline('1Y')"><h3>1Y</h3></button></li>
+              <li><button id="2Y" onclick="update_timeline('2Y')"><h3>2Y</h3></button></li>
+          </ul>
+        </div>  
+       <canvas id="portfolioHistory_lineChart"></canvas>
+      </div>
+      </div>
+
+        <!-- TABLE_Section -->
+        <div class="recent-orders">
+          <h1>Updates</h1>
+          <table id="recent-orders--table">
+            <thead>
+              <tr>
+                <th>ETF Name</th>
+                <th>Ticker Symbol</th>
+                <th>Closing Price</th>
+                <th>Trading Volume</th>
+                <th>% Change</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+               <!-- Table body is updated with JS code from ETF_table_summary.js -->
+            </tbody>
+          </table>
+          <a href="#">Back to top</a>
+        </div>
+
+    <!-- Footer Section -->
+    <div class="footer__container">
+        <div class="footer__links">
+          <div class="footer__link--wrapper">
+            <div class="footer__link--items">
+              <h2>About Us</h2>
+              <a href="/sign__up">How it works</a> <a href="/">Testimonials</a>
+              <a href="/">Careers</a> <a href="/">Investments</a>
+              <a href="/">Terms of Service</a>
+            </div>
+            <div class="footer__link--items">
+              <h2>Contact Us</h2>
+              <a href="/">Contact</a> <a href="/">Support</a>
+              <a href="/">Destinations</a> <a href="/">Sponsorships</a>
+            </div>
+          </div>
+          <div class="footer__link--wrapper">
+            <div class="footer__link--items">
+              <h2>Social Media</h2>
+              <a href="/">Instagram</a> <a href="/">Facebook</a>
+              <a href="/">Youtube</a> <a href="/">Twitter</a>
+            </div>
+        </div>
+        <section class="social__media">
+          <div class="social__media--wrap">
+            <div class="footer__logo">
+              <a href="/" id="footer__logo"></i>FinancETF</a>
+            </div>
+            <div class="social__icons">
+              <a
+                class="social__icon--link"
+                href="/"
+                target="_blank"
+                aria-label="Facebook"
+              >
+                <i class="fab fa-facebook"></i>
+              </a>
+              <a
+                class="social__icon--link"
+                href="/"
+                target="_blank"
+                aria-label="Instagram"
+              >
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a
+                class="social__icon--link"
+                href="//www.youtube.com/channel/UCsKsymTY_4BYR-wytLjex7A?view_as=subscriber"
+                target="_blank"
+                aria-label="Youtube"
+              >
+              <i class="fab fa-youtube"></i>
+              </a>
+              <a
+                class="social__icon--link"
+                href="/"
+                target="_blank"
+                aria-label="Twitter"
+              >
+              <i class="fab fa-twitter"></i>
+              </a>
+              <a
+                class="social__icon--link"
+                href="/"
+                target="_blank"
+                aria-label="LinkedIn"
+              >
+                <i class="fab fa-linkedin"></i>
+              </a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+    <!-----------------footer Section end here------------------------->
+    <!-----------------main end here------------------------->
+    <!---------------- Right Section Starts------------------------->
+      
+    <!----------------  Start of TOP Sectiom------------------------->
+
+      <div class="right">
+        <div class="top">
+          <button id="menu-btn">
+            <span class="material-icons-sharp"> menu </span>
+          </button>
+          <div class="success  ETF_update"><ul>
+          <li><span class="material-icons-sharp">
+            arrow_upward
+            </span>    
+            <h6 id="currentPortfolioValue"></h6></li>
+            <!-- <p> Change since last updated: </p>-->
+            <li><p class="success " id="percentChange">20 %</p> 
+          </ul>
+          </div>
+          <div class="profile">
+          <div class="info">
+            <p>Hey, <b>Bruno</b></p>
+          </div>
+          <div class="profile-photo">
+            <img src="./images/profile-2.jpg" alt="Profile Picture" />
+          </div>
+        </div>
+      </div>
+      <!----------------  END of TOP Sectiom------------------------->
+
+      <div class="sales-analytics">
+        <h1>ETF Stock Info</h1>
+        <div class="ETF_insights bonds">
+          <a href="/" ><h6>BOND</h6></a>
+          <small class="text-muted">2 min ago</small>
+        <div class="right">
+           <div class="info">
+            <h3 class = "success"> $ 1,456 </h3>
+            <h5 class = "success"> +29% </h5>   
+           </div>
+          </div>
+          </div>
+          <div class=" ETF_insights SPY">
+            <a href="/" ><h6>SPY</h6></a>
+            <small class="text-muted">2 min ago</small>
+          <div class="right">
+             <div class="info">
+              <h3 class = "danger"> $ 1,950</h3>
+              <h5 class = "danger"> -6% </h5>   
+             </div>
+            </div>
+            </div>
+            <div class="ETF_insights SPY">
+              <a href="/" ><h6>VONG</h6></a>
+              <small class="text-muted">2 min ago</small>
+            <div class="right">
+               <div class="info">
+                <h3 class = "success"> $ 2550</h3>
+                <h5 class = "success"> +4% </h5>   
+               </div>
+              </div>
+              </div>
+              <div class="ETF_insights VGK">
+                <a href="/" ><h6>VGK</h6></a>
+                <small class="text-muted">2 min ago</small>
+              <div class="right">
+                 <div class="info">
+                  <h3 class = "danger"> $ 2550</h3>
+                  <h5 class = "danger"> -4% </h5>   
+                 </div>
+                </div>
+                </div>
+                <div class="ETF_insights SCHE">
+                  <a href="/" ><h6>SCHE</h6></a>
+                  <small class="text-muted">2 min ago</small>
+                <div class="right">
+                   <div class="info">
+                    <h3 class = "success"> $ 2940</h3>
+                    <h5 class = "success"> +10% </h5>   
+                   </div>
+                  </div>
+                  </div> 
+        <div class="recent-updates">
+          <h1>ETF Descriptions</h1>
+            <div class="updates">
+              <div class="update">
+                <div class="ETF_desc">
+                  <p><b>Pimco Active Bond Exchange-Traded Fund (BOND) </b>is a well-diversified fund including government related, securitized and investment grade corporate debt. 75% of the portfolio holdings being investment-grade credit ratings, and 65% boast AAA ratings. </p>
+                  <small class="text-muted">AAA rated</small> 
+                </div>
+              </div>
+              <div class="update">
+                <div class="ETF_desc">
+                  <p><b>Vanguard FTSE Europe ETF (VGK)</b> allocates its investments to both emerging stocks and emerging nations, including but not limited to China, Taiwan, India, and Brazil. The fund's primary sectors of focus are financial services, technology, and consumer cyclical industries.</p>
+                  <small class="text-muted">Higher levels of risk</small> 
+                </div>
+            </div>
+            <div class="update">
+              <div class="ETF_desc">
+                <p><b>SPDR S&P 500 ETF Trust (SPY)</b> trades on the NYSE Arca and is designed to track the S&P 500 stock market index. The S&P 500 represents 80% of the North American market and includes companies across all sectors. It is frequently used as a benchmark for the market as whole.</p>
+                <small class="text-muted">Stable or risky?</small> 
+              </div>
+            </div>
+            <div class="update">
+              <div class="ETF_desc">
+                <p><b>Schwab Emerging Markets Equity ETF (SCHE)</b> invests in emerging stocks as well as emerging countries such as China, Taiwan, India and Brazil.  Its top sectors are financial services, technology and consumer cyclical.</p>
+                <small class="text-muted">Higher levels of risk</small> 
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+
+    <script src="app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js" integrity="sha512-GMGzUEevhWh8Tc/njS0bDpwgxdCJLQBWG3Z2Ct+JGOpVnEmjvNx6ts4v6A2XJf1HOrtOsfhv3hBKpK9kE5z8AQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="./main.js"></script>
+    <script src="static/js/doughnut_chart_test.js"></script>
+    <script src="static/js/line_chart_test.js"></script>
+    <script src="static/js/gauge_chart.js"></script>
+    <script src="static/js/current_portfolio_value.js"></script>
+    <script src="static/js/update_charts.js"></script>
+    <script src="static/js/initialize_charts.js"></script>
+    <script src="static/js/ETF_table_summary.js"></script>
+    <script src="static/js/calendar.js"></script>
+
+
+</body>
+</html>
