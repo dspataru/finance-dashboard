@@ -2,9 +2,10 @@
 // Creating a line chart using Chart.js and updating it based on dropdown selection.
 // ---------------------------------------------------------------------------------
 
-let YTD_url = 'https://gayatrijohn3-d498f365-c54e-4381-857d-9f4ac180634e.socketxp.com/api/portfolio_data/';
+let YTD_url = 'https://nikitagahoi-0c509522-ac93-40bc-8e9f-b8e18d3f0921.socketxp.com/api/portfolio_data/';
 
-let currentDate = new Date()
+let currentDate = new Date();
+let currentDate_formatted = currentDate.toISOString(0, 10);
 
 let oneYearAgo = new Date(currentDate);
 oneYearAgo.setFullYear(currentDate.getFullYear() - 1); // subtract one year from the current date
@@ -13,10 +14,6 @@ let oneYearAgoFormatted = oneYearAgo.toISOString().slice(0, 10); // format the r
 let twoYearAgo = new Date(currentDate);
 twoYearAgo.setFullYear(currentDate.getFullYear() - 1); // subtract one year from the current date
 let twoYearAgoFormatted = oneYearAgo.toISOString().slice(0, 10); // format the result as a string
-
-let oneYear_URL = YTD_url + portfolio + oneYearAgoFormatted;
-let twoYear_URL = YTD_url + portfolio + twoYearAgoFormatted;
-
 
 function initializeLineChart(portfolioVals, date) {
 
@@ -46,31 +43,19 @@ function initializeLineChart(portfolioVals, date) {
 // Function to update the line chart
 function update_lineChart(portfolio_values, dates) {
     portfolioHistory_lineChart.data.datasets[0].data = portfolio_values;   // Update the chart's data with the new data
+    console.log.apply('portfolio:',portfolioHistory_lineChart.data.datasets[0].data);
     portfolioHistory_lineChart.labels = dates;   // Update the chart's data with the new timeline
     portfolioHistory_lineChart.update();
 }
 
-// Function that listens for a button press event.
-function update_timeline() {
-    
-    // Add a click event listener to the button
-    let YTD_button = document.getElementById('YTD');
-    let oneYear_button = document.getElementById('1Y');
-    let twoYear_button = document.getElementById('2Y');
-
-    YTD_button.addEventListener('click', () => { portfolioAPIcall(YTD_url, p) });
-    oneYear_button.addEventListener('click', () => { portfolioAPIcall(oneYear_URL, p) });    
-    twoYear_button.addEventListener('click', () => { portfolioAPIcall(twoYear_URL, p) });
-
-}
 
 
-function portfolioAPIcall(portfolioURL, p) {
+function timelineAPIcall(portfolioURL, p, start, end) {
 
-    d3.json(portfolioURL + p)
+    d3.json(portfolioURL + p + '/' + start + '/' + end)
     .then(function(data) {
-      console.log(data)
-      data.forEach((item) => {
+    //console.log(data)
+    data.forEach((item) => {
         item.dateObj = new Date(item.date);
         });
 
@@ -83,7 +68,7 @@ function portfolioAPIcall(portfolioURL, p) {
         });
 
         // Now, data is sorted by date in ascending order
-        console.log(data)
+        //console.log(data)
 
         portfolio_values = [];
         portfolio_dates = [];
@@ -102,4 +87,61 @@ function portfolioAPIcall(portfolioURL, p) {
         // Handle any errors that occur during the request
         console.error('Error:', error);
     })
+};
+
+
+
+function portfolioAPIcall(portfolioURL, p) {
+
+        d3.json(portfolioURL + p)
+        .then(function(data) {
+        //console.log(data)
+        data.forEach((item) => {
+            item.dateObj = new Date(item.date);
+            });
+
+            // Sort the list of dictionaries by date in ascending order
+            data.sort((a, b) => a.dateObj - b.dateObj);
+
+            // Remove the dateObj key if you don't need it anymore
+            data.forEach((item) => {
+                delete item.dateObj;
+            });
+
+            // Now, data is sorted by date in ascending order
+            console.log(data)
+
+            portfolio_values = [];
+            portfolio_dates = [];
+
+            data.map(function(item){
+                portfolio_values.push(item[`${p}_portfolio_value`])
+                portfolio_dates.push(item.date)
+            })
+
+            let dates = portfolio_dates.map(dateStr => new Date(dateStr));
+            
+            // making the line chart
+            update_lineChart(portfolio_values, dates);
+        })
+        .catch(function(error) {
+            // Handle any errors that occur during the request
+            console.error('Error:', error);
+        })
+};
+
+// Function that listens for a button press event.
+function update_timeline() {
+    
+    console.log('button was clicked');
+
+    // Add a click event listener to the button
+    let YTD_button = document.getElementById('YTD');
+    let oneYear_button = document.getElementById('1Y');
+    let twoYear_button = document.getElementById('2Y');
+
+    YTD_button.addEventListener('click', () => { portfolioAPIcall(YTD_url, p) });
+    oneYear_button.addEventListener('click', () => { timelineAPIcall(YTD_url, p, oneYearAgoFormatted, currentDate_formatted) });    
+    twoYear_button.addEventListener('click', () => { timelineAPIcall(YTD_url, p, twoYearAgoFormatted, currentDate_formatted) });
+
 }

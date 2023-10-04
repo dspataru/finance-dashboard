@@ -1,31 +1,30 @@
 // Initializing charts with conservative portfolio
-let doughnutChart = document.getElementById('pie_chart').getContext('2d');
 let lineChart = document.getElementById('portfolioHistory_lineChart').getContext('2d'); // get a reference to the canvas element
 
-let weights_url = 'https://gayatrijohn3-d498f365-c54e-4381-857d-9f4ac180634e.socketxp.com/api/portfolio_weights/';
-let portfolio_url = 'https://gayatrijohn3-d498f365-c54e-4381-857d-9f4ac180634e.socketxp.com/api/portfolio_data/';
-let ETF_url = 'https://gayatrijohn3-d498f365-c54e-4381-857d-9f4ac180634e.socketxp.com/api/price_info/' // UPDATE
+let base_url = 'https://nikitagahoi-0c509522-ac93-40bc-8e9f-b8e18d3f0921.socketxp.com/api/'
+
+let weights_url = base_url+'portfolio_weights/';
+let portfolio_url = base_url+'portfolio_data/';
+let ETF_url = base_url+'price_info/' 
 
 
 let p = 'conservative';
 
-// initialize the donut chart with conservative data
+//initialize the donut chart with conservative data
 d3.json(weights_url + p)
   .then(function(data) {
 
-    console.log('donut data', data);
+    //console.log('donut data', data);
 
     const values = Object.values(data).filter((value, key) => key !== 'portfolio');
-    console.log('donut values');
-    intializeDonutChart(values.slice(0,5));
+    //console.log('donut values');
+    initializeDonutChart(values.slice(0,5));
 
   })
   .catch(function(error) {
         // Handle any errors that occur during the request
         console.error('Error:', error);
   });
-
-
 
 
 // initialize the line chart with conservative & YTD data
@@ -77,9 +76,10 @@ let ETFtabledata = [];
 let ETFnames = ['BOND', 'SPY', 'VGK', 'VONG', 'SCHE'];
 let ETFsURL = [];
 let results = [];
+let startDate = '/2023-10-02';
 
 for (i=0; i<ETFnames.length; i++) {
-    ETFsURL.push(ETF_url + ETFnames[i]);
+    ETFsURL.push(ETF_url + ETFnames[i] + startDate);
 }
 
 // Use D3.js to make API calls for each URL
@@ -87,13 +87,14 @@ ETFsURL.forEach(url => {
     d3.json(url)
       .then(data => {
         // Store the result in the results array
-        results.push(data);
-  
+        console.log(data);
+        updateETFTable(data);
         // Check if all API calls are complete
-        if (results.length === ETFsURL.length) {
-          // All API calls are done, you can work with 'results' here
-          console.log('All API calls completed:', results);
-        }
+        // if (results.length === ETFsURL.length) {
+        //   // All API calls are done, you can work with 'results' here
+        //   console.log('All API calls completed:', results);
+        //   //updateETFTable(results);
+        // }
       })
       .catch(error => {
         // Handle any errors that occur during API calls

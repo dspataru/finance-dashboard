@@ -1,14 +1,13 @@
 // Function to update the table
 function updateETFTable(ETF_info) {
     
-    let etfName = [];
+    //console.log(ETF_info);
     let tickerSymbol = [];
     let closingPrice = [];
     let tradingVolume = [];
     let percentChange = [];
 
     ETF_info.map(function(item){
-        etfName.push(item[`${p}_price_info`]); // get ETF name
         tickerSymbol.push(item.ticker_symbol); // get ticker symbol
         closingPrice.push(item.close_price); // get closing price
         tradingVolume.push(item.trading_volume); // get trading vol
@@ -18,12 +17,8 @@ function updateETFTable(ETF_info) {
     let tableBody = document.getElementById("tableBody");
 
     // Loop through the arrays and create rows for each item
-    for (let i = 0; i < etfName.length; i++) {
+    for (let i = 0; i < tickerSymbol.length; i++) {
         const row = document.createElement("tr");
-
-        const etfNameCell = document.createElement("td");
-        etfNameCell.textContent = etfName[i];
-        row.appendChild(etfNameCell);
 
         const tickerSymbolCell = document.createElement("td");
         tickerSymbolCell.textContent = tickerSymbol[i];

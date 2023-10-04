@@ -39,7 +39,7 @@ function update_currentPortfolio(portfolio_url, p) {
     .then(function(data) {
 
         // Handle the JSON data here
-        console.log(data)
+        //console.log(data)
 
         data.forEach((item) => {
             item.dateObj = new Date(item.date);
@@ -54,7 +54,7 @@ function update_currentPortfolio(portfolio_url, p) {
             });
 
             // Now, data is sorted by date in ascending order
-            console.log(data)
+            //console.log(data)
 
             portfolio_values = [];
 
