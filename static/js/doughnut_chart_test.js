@@ -4,6 +4,7 @@
 // -----------------------------------------------------------------------------------------------------------------------------
 // -----------------------------------------------------------------------------------------------------------------------------
 
+let ETF_doughnutChart;
 
 function calculateInvestmentAmount(weights) {
   return weights; //weights.map(function(x) {return (x/100)*1000000});
@@ -20,32 +21,10 @@ function portfolioLabels(portfolioData) {
 }
 
 
-// function to config params for donut chart
-// function intializeDonutChart(weights) {
-
-
-//   return doughnut_data, options;
-// }
-
-///////////////////////////////////////////////////////////////////////
-
-// // Step 1: Make an API request to fetch the initial data
-// function fetchInitialDataAndInitializeChart(initialURL) {
-
-//     d3.json(initialURL)
-//         .then(initialData => {
-//             // Initialize the chart with the initial data
-//             initializeChart(initialData);
-//         })
-//         .catch(error => {
-//             console.error("Initial data API error:", error);
-//         });
-// }
-
-// Step 2: Initialize the chart with the initial data
+// Initialize the chart with the initial data
 function initializeDonutChart(initialData) {
 
-  
+
   let doughnutChart = document.getElementById('pie_chart').getContext('2d');
 
   let data = {
@@ -99,27 +78,27 @@ function initializeDonutChart(initialData) {
     } 
   };
   
-  let ETF_doughnutChart = new Chart(doughnutChart, {
+  ETF_doughnutChart = new Chart(doughnutChart, {
     type: 'doughnut',
     data: doughnut_data,
     options: options
   });
 }
 
-// Step 3: Make an API request to fetch new data and update the chart
+// Make an API request to fetch new data and update the chart
 function weightAPIcall(weightURL, p) {
 
   d3.json(weightURL + p)
   .then(function(data) {
 
-    console.log(data)
+    console.log(data);
     let new_data = Object.values(data).filter((value, key) => key !== 'portfolio');
-    ETF_doughnutChart.data = new_data;
+    console.log(new_data.slice(0,5));
+    ETF_doughnutChart.data = new_data.slice(0,5);
     ETF_doughnutChart.update();
   
   })
 
-};
- 
+}; 
 
 

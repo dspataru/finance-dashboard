@@ -14,10 +14,7 @@ let p = 'conservative';
 d3.json(weights_url + p)
   .then(function(data) {
 
-    //console.log('donut data', data);
-
     const values = Object.values(data).filter((value, key) => key !== 'portfolio');
-    //console.log('donut values');
     initializeDonutChart(values.slice(0,5));
 
   })
@@ -32,7 +29,6 @@ d3.json(portfolio_url + p)
     .then(function(data) {
 
         // Handle the JSON data here
-        //console.log(data)
 
         data.forEach((item) => {
             item.dateObj = new Date(item.date);
@@ -47,19 +43,19 @@ d3.json(portfolio_url + p)
             });
 
             // Now, data is sorted by date in ascending order
-            //console.log(data);
 
             portfolio_values = [];
             portfolio_dates = [];
 
             data.map(function(item){
                 portfolio_values.push(item[`${p}_portfolio_value`])
+                console.log(item.date);
                 portfolio_dates.push(item.date)
             })
 
-            let dates = portfolio_dates.map(dateStr => new Date(dateStr));
+            //let dates = portfolio_dates.map(dateStr => new Date(dateStr));
             
-            initializeLineChart(portfolio_values, dates); // making the line chart
+            initializeLineChart(portfolio_values, portfolio_dates); // making the line chart
             initializePortfolioValue(portfolio_values); // populating the current portfolio value
         })
     .catch(function(error) {
@@ -75,7 +71,6 @@ d3.json(portfolio_url + p)
 let ETFtabledata = [];
 let ETFnames = ['BOND', 'SPY', 'VGK', 'VONG', 'SCHE'];
 let ETFsURL = [];
-let results = [];
 let startDate = '/2023-10-02';
 
 for (i=0; i<ETFnames.length; i++) {
@@ -86,15 +81,9 @@ for (i=0; i<ETFnames.length; i++) {
 ETFsURL.forEach(url => {
     d3.json(url)
       .then(data => {
-        // Store the result in the results array
-        console.log(data);
+
         updateETFTable(data);
-        // Check if all API calls are complete
-        // if (results.length === ETFsURL.length) {
-        //   // All API calls are done, you can work with 'results' here
-        //   console.log('All API calls completed:', results);
-        //   //updateETFTable(results);
-        // }
+
       })
       .catch(error => {
         // Handle any errors that occur during API calls

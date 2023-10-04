@@ -49,48 +49,6 @@ function update_lineChart(portfolio_values, dates) {
 }
 
 
-
-function timelineAPIcall(portfolioURL, p, start, end) {
-
-    d3.json(portfolioURL + p + '/' + start + '/' + end)
-    .then(function(data) {
-    //console.log(data)
-    data.forEach((item) => {
-        item.dateObj = new Date(item.date);
-        });
-
-        // Sort the list of dictionaries by date in ascending order
-        data.sort((a, b) => a.dateObj - b.dateObj);
-
-        // Remove the dateObj key if you don't need it anymore
-        data.forEach((item) => {
-            delete item.dateObj;
-        });
-
-        // Now, data is sorted by date in ascending order
-        //console.log(data)
-
-        portfolio_values = [];
-        portfolio_dates = [];
-
-        data.map(function(item){
-            portfolio_values.push(item[`${p}_portfolio_value`])
-            portfolio_dates.push(item.date)
-        })
-
-        let dates = portfolio_dates.map(dateStr => new Date(dateStr));
-        
-        // making the line chart
-        update_lineChart(portfolio_values, dates);
-    })
-    .catch(function(error) {
-        // Handle any errors that occur during the request
-        console.error('Error:', error);
-    })
-};
-
-
-
 function portfolioAPIcall(portfolioURL, p) {
 
         d3.json(portfolioURL + p)
@@ -115,8 +73,9 @@ function portfolioAPIcall(portfolioURL, p) {
             portfolio_dates = [];
 
             data.map(function(item){
-                portfolio_values.push(item[`${p}_portfolio_value`])
-                portfolio_dates.push(item.date)
+                portfolio_values.push(item[`${p}_portfolio_value`]);
+                console.log(item.date);
+                portfolio_dates.push(item.date);
             })
 
             let dates = portfolio_dates.map(dateStr => new Date(dateStr));
@@ -141,7 +100,7 @@ function update_timeline() {
     let twoYear_button = document.getElementById('2Y');
 
     YTD_button.addEventListener('click', () => { portfolioAPIcall(YTD_url, p) });
-    oneYear_button.addEventListener('click', () => { timelineAPIcall(YTD_url, p, oneYearAgoFormatted, currentDate_formatted) });    
-    twoYear_button.addEventListener('click', () => { timelineAPIcall(YTD_url, p, twoYearAgoFormatted, currentDate_formatted) });
+    oneYear_button.addEventListener('click', () => { portfolioAPIcall(YTD_url, p, oneYearAgoFormatted, currentDate_formatted) });    
+    twoYear_button.addEventListener('click', () => { portfolioAPIcall(YTD_url, p, twoYearAgoFormatted, currentDate_formatted) });
 
 }

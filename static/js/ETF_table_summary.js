@@ -25,15 +25,15 @@ function updateETFTable(ETF_info) {
         row.appendChild(tickerSymbolCell);
 
         const closingPriceCell = document.createElement("td");
-        closingPriceCell.textContent = closingPrice[i];
+        closingPriceCell.textContent = Number(closingPrice[i].toString().slice(0,5));
         row.appendChild(closingPriceCell);
 
         const tradingVolumeCell = document.createElement("td");
-        tradingVolumeCell.textContent = tradingVolume[i];
+        tradingVolumeCell.textContent = Number(tradingVolume[i].toString().slice(0,5));
         row.appendChild(tradingVolumeCell);
 
         const percentChangeCell = document.createElement("td");
-        percentChangeCell.textContent = percentChange[i];
+        percentChangeCell.textContent = Number(percentChange[i].toString().slice(0,5));
         row.appendChild(percentChangeCell);
 
         tableBody.appendChild(row);
