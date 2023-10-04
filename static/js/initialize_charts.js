@@ -3,13 +3,17 @@ let p = 'conservative';
 
 let lineChart = document.getElementById('portfolioHistory_lineChart').getContext('2d'); // get a reference to the canvas element
 
-let base_url = 'https://nikitagahoi-0c509522-ac93-40bc-8e9f-b8e18d3f0921.socketxp.com/api/'
+let base_url = 'https://nikitagahoi-15458a97-2869-4864-b6cb-5c159da0a651.socketxp.com/api/'
 
 let weights_url = base_url+'portfolio_weights/';
 let portfolio_url = base_url+'portfolio_data/';
 let ETF_url = base_url+'price_info/' 
 
 let ETF_doughnutChart;
+
+d3.json(weights_url+p).then(function(data){
+  console.log(data);
+})
 //let portfolioHistory_lineChart;
 
 //initialize the donut chart with conservative data
