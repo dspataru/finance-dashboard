@@ -10,6 +10,7 @@ function updateCharts(portfolio) {
     weightAPIcall(weights_url, portfolio);
     updateGauge(portfolio);
     portfolioAPIcall(portfolio_url, portfolio);
-    update_currentPortfolio(portfolio_url, portfolio);
+    //update_currentPortfolio(portfolio_url, portfolio);
     //update_calendar(portfolio_url, portfolio);
+
 }

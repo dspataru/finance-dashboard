@@ -22,7 +22,7 @@ function portfolioLabels(portfolioData) {
 function intializeDonutChart(weights) {
 
   let data = {
-    weight: [weights.BOND, weights.SCHE, weights.SPY, weights.VGK, weights.VONG],
+    weight: weights,
     investmentAmount: calculateInvestmentAmount(weights)
   }
 

@@ -14,8 +14,8 @@ let twoYearAgo = new Date(currentDate);
 twoYearAgo.setFullYear(currentDate.getFullYear() - 1); // subtract one year from the current date
 let twoYearAgoFormatted = oneYearAgo.toISOString().slice(0, 10); // format the result as a string
 
-let oneYear_URL = YTD_url + p + oneYearAgoFormatted;
-let twoYear_URL = YTD_url + p + twoYearAgoFormatted;
+let oneYear_URL = YTD_url + portfolio + oneYearAgoFormatted;
+let twoYear_URL = YTD_url + portfolio + twoYearAgoFormatted;
 
 
 function initializeLineChart(portfolioVals, date) {

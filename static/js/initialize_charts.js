@@ -4,7 +4,8 @@ let lineChart = document.getElementById('portfolioHistory_lineChart').getContext
 
 let weights_url = 'https://gayatrijohn3-d498f365-c54e-4381-857d-9f4ac180634e.socketxp.com/api/portfolio_weights/';
 let portfolio_url = 'https://gayatrijohn3-d498f365-c54e-4381-857d-9f4ac180634e.socketxp.com/api/portfolio_data/';
-let ETF_url = 'https://gayatrijohn3-d498f365-c54e-4381-857d-9f4ac180634e.socketxp.com/api/' // UPDATE
+let ETF_url = 'https://gayatrijohn3-d498f365-c54e-4381-857d-9f4ac180634e.socketxp.com/api/price_info/' // UPDATE
+
 
 let p = 'conservative';
 
@@ -12,10 +13,11 @@ let p = 'conservative';
 d3.json(weights_url + p)
   .then(function(data) {
 
-    console.log(data);
+    console.log('donut data', data);
 
     const values = Object.values(data).filter((value, key) => key !== 'portfolio');
-    intializeDonutChart(values);
+    console.log('donut values');
+    intializeDonutChart(values.slice(0,5));
 
   })
   .catch(function(error) {
@@ -31,7 +33,7 @@ d3.json(portfolio_url + p)
     .then(function(data) {
 
         // Handle the JSON data here
-        console.log(data)
+        //console.log(data)
 
         data.forEach((item) => {
             item.dateObj = new Date(item.date);
@@ -46,7 +48,7 @@ d3.json(portfolio_url + p)
             });
 
             // Now, data is sorted by date in ascending order
-            console.log(data);
+            //console.log(data);
 
             portfolio_values = [];
             portfolio_dates = [];
@@ -68,8 +70,33 @@ d3.json(portfolio_url + p)
 
 
 
+
 // Initialize the ETF summary table
-d3.json(ETF_url)
-    .then(function(data) {
-        updateETFTable(data);
-    })
+
+let ETFtabledata = [];
+let ETFnames = ['BOND', 'SPY', 'VGK', 'VONG', 'SCHE'];
+let ETFsURL = [];
+let results = [];
+
+for (i=0; i<ETFnames.length; i++) {
+    ETFsURL.push(ETF_url + ETFnames[i]);
+}
+
+// Use D3.js to make API calls for each URL
+ETFsURL.forEach(url => {
+    d3.json(url)
+      .then(data => {
+        // Store the result in the results array
+        results.push(data);
+  
+        // Check if all API calls are complete
+        if (results.length === ETFsURL.length) {
+          // All API calls are done, you can work with 'results' here
+          console.log('All API calls completed:', results);
+        }
+      })
+      .catch(error => {
+        // Handle any errors that occur during API calls
+        console.error('API error:', error);
+      });
+  });
