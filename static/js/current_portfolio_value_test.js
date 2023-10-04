@@ -8,7 +8,7 @@
 function display_portfolioValue(initialAmount, updatedAmount) {
 
     // Calculate the percent change
-    let percentChange = ((updatedAmount - initialAmount) / initialAmount) * 100;
+    let percentChange = Number((((updatedAmount - initialAmount) / initialAmount) * 100).toString().slice(0,6));
 
     let currentPortfolio_value = document.getElementById("currentPortfolioValue")
     if (currentPortfolio_value) {
@@ -21,14 +21,6 @@ function display_portfolioValue(initialAmount, updatedAmount) {
     }
 }
 
-function initializePortfolioValue(portfolioVals) {
-    let currentValue = portfolioVals[portfolioVals.length]; // finding the last data entry for the portfolio value
-    let previousValue = portfolioVals[portfolioVals.length - 1]; // finding the second last data entry for the portfolio value
-
-    display_portfolioValue(previousValue, currentValue);
-}
-
-
 // -----------------------------------------------------------------------------------------------
 // Function to update the portfolio value based on the selected portfolio from the drop down menu.
 // -----------------------------------------------------------------------------------------------
@@ -39,7 +31,6 @@ function update_currentPortfolio(portfolio_url, p) {
     .then(function(data) {
 
         // Handle the JSON data here
-        //console.log(data)
 
         data.forEach((item) => {
             item.dateObj = new Date(item.date);
@@ -54,15 +45,17 @@ function update_currentPortfolio(portfolio_url, p) {
             });
 
             // Now, data is sorted by date in ascending order
-            //console.log(data)
 
-            portfolio_values = [];
+            let portfolio_values = [];
 
             data.map(function(item){
                 portfolio_values.push(item[`${p}_portfolio_value`])
             })
+
+            let previousDate = portfolio_values[portfolio_values.length - 2];
+            let currentDate = portfolio_values[portfolio_values.length - 1];
             
-            initializePortfolioValue(portfolio_values); // populating the current portfolio value
+            display_portfolioValue(previousDate, currentDate); // populating the current portfolio value
         })
     .catch(function(error) {
         // Handle any errors that occur during the request

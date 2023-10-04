@@ -1,4 +1,6 @@
 // Initializing charts with conservative portfolio
+let p = 'conservative';
+
 let lineChart = document.getElementById('portfolioHistory_lineChart').getContext('2d'); // get a reference to the canvas element
 
 let base_url = 'https://nikitagahoi-0c509522-ac93-40bc-8e9f-b8e18d3f0921.socketxp.com/api/'
@@ -7,8 +9,7 @@ let weights_url = base_url+'portfolio_weights/';
 let portfolio_url = base_url+'portfolio_data/';
 let ETF_url = base_url+'price_info/' 
 
-
-let p = 'conservative';
+let ETF_doughnutChart;
 
 //initialize the donut chart with conservative data
 d3.json(weights_url + p)
@@ -42,21 +43,23 @@ d3.json(portfolio_url + p)
                 delete item.dateObj;
             });
 
-            // Now, data is sorted by date in ascending order
+            // below the data is sorted by date in ascending order
 
             portfolio_values = [];
             portfolio_dates = [];
 
             data.map(function(item){
                 portfolio_values.push(item[`${p}_portfolio_value`])
-                console.log(item.date);
                 portfolio_dates.push(item.date)
             })
 
             //let dates = portfolio_dates.map(dateStr => new Date(dateStr));
-            
+
+            let previousDate = portfolio_values[portfolio_values.length - 2];
+            let currentDate = portfolio_values[portfolio_values.length - 1];
+
             initializeLineChart(portfolio_values, portfolio_dates); // making the line chart
-            initializePortfolioValue(portfolio_values); // populating the current portfolio value
+            display_portfolioValue(previousDate, currentDate); // populating the current portfolio value
         })
     .catch(function(error) {
         // Handle any errors that occur during the request

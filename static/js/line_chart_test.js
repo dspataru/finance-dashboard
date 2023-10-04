@@ -3,7 +3,7 @@
 // ---------------------------------------------------------------------------------
 
 let YTD_url = 'https://nikitagahoi-0c509522-ac93-40bc-8e9f-b8e18d3f0921.socketxp.com/api/portfolio_data/';
-
+let start = '/2022-03-02'
 let currentDate = new Date();
 let currentDate_formatted = currentDate.toISOString(0, 10);
 
@@ -35,7 +35,6 @@ function initializeLineChart(portfolioVals, date) {
             resposive: true
         }
     });
-
     return portfolioHistory_lineChart;
 }
 
@@ -43,7 +42,6 @@ function initializeLineChart(portfolioVals, date) {
 // Function to update the line chart
 function update_lineChart(portfolio_values, dates) {
     portfolioHistory_lineChart.data.datasets[0].data = portfolio_values;   // Update the chart's data with the new data
-    console.log.apply('portfolio:',portfolioHistory_lineChart.data.datasets[0].data);
     portfolioHistory_lineChart.labels = dates;   // Update the chart's data with the new timeline
     portfolioHistory_lineChart.update();
 }
@@ -67,14 +65,14 @@ function portfolioAPIcall(portfolioURL, p) {
             });
 
             // Now, data is sorted by date in ascending order
-            console.log(data)
+            //console.log(data)
 
             portfolio_values = [];
             portfolio_dates = [];
 
             data.map(function(item){
                 portfolio_values.push(item[`${p}_portfolio_value`]);
-                console.log(item.date);
+                //console.log(item.date);
                 portfolio_dates.push(item.date);
             })
 
@@ -99,8 +97,8 @@ function update_timeline() {
     let oneYear_button = document.getElementById('1Y');
     let twoYear_button = document.getElementById('2Y');
 
-    YTD_button.addEventListener('click', () => { portfolioAPIcall(YTD_url, p) });
-    oneYear_button.addEventListener('click', () => { portfolioAPIcall(YTD_url, p, oneYearAgoFormatted, currentDate_formatted) });    
-    twoYear_button.addEventListener('click', () => { portfolioAPIcall(YTD_url, p, twoYearAgoFormatted, currentDate_formatted) });
+    YTD_button.addEventListener('click', () => { portfolioAPIcall(YTD_url, p, start) });
+    oneYear_button.addEventListener('click', () => { portfolioAPIcall(YTD_url, p, oneYearAgoFormatted) });  
+    twoYear_button.addEventListener('click', () => { portfolioAPIcall(YTD_url, p, twoYearAgoFormatted) });
 
 }
